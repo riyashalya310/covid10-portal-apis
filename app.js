@@ -39,7 +39,7 @@ app.post("/login/", async (request, response) => {
     response.status(400);
     response.send("Invalid user");
   } else {
-    if (await bcrypt.compare(user.password, password)) {
+    if (await bcrypt.compare(password, user.password)) {
       const userDetails = {
         username,
       };
@@ -60,7 +60,7 @@ const authenticateToken = async (request, response, next) => {
   }
   if (jwtToken === undefined) {
     response.status(401);
-    response.send("Invalid Token");
+    response.send("Invalid JWT Token");
   } else {
     jwt.verify(jwtToken, "MY_TOKEN", async (error, payload) => {
       if (error) {
